@@ -6,112 +6,90 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 20:02:39 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/23 16:09:02 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:36:01 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h> 
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <time.h>
+# include <sys/wait.h>
+# include <errno.h>
 
 int main(int argc, char **argv, char **envp)
 {
+    int fd1[2];
+    int fd2[2];
+
+    char fixed_str[] = "in.c";
+    char input_str[] = "Hello.world.";
+    pid_t p;
+
+    if (pipe(fd1) == -1) //main
+    {
+        fprintf(stderr, "pipe1 failed");
+        return (1);
+    }
+    if (pipe(fd2) == -1) //main
+    {
+        fprintf(stderr, "pipe2 failed");
+        return (1);
+    }
+
+    p = fork(); //main
     
-    // if (access("/usr/bin", X_OK) == -1)
-    //     perror("an error occured with access fn\n");
-    // printf("bad error\n");
-    // return (0);
+    if (p < 0)
+    {
+        fprintf(stderr, "fork failed");
+    }
+
+    //parent
+    else if (p > 0)
+    {
+        char concat_str[100];
+        close(fd1[0]); //close reading end
+        
+        write(fd1[1], input_str, strlen(input_str) + 1);
+        close(fd1[1]);
+        
+        wait(NULL);
+        close(fd2[1]);
+        read(fd2[0], concat_str, 100);
+        printf("Concatenated string is: %s\n", concat_str);
+        close(fd2[0]);
+    }
+
+    //child
+    else {
+        int k;
+        int i;
+        char concat_str[100];
+        
+
+        close(fd1[1]);
+        read(fd1[0], concat_str, 100);
+
+        k = strlen(concat_str);
+        while (i < strlen(fixed_str))
+        {
+            concat_str[k] = fixed_str[i];
+            i++;
+            k++;
+        }
+        concat_str[k];
+        
+        close(fd1[0]);
+        close(fd2[0]);
+
+        write(fd2[1], concat_str, strlen(concat_str) + 1);
+        close(fd2[1]);
+
+        exit(0);
+    }
+    
 }
-
-
-
-
-
-
-
-
-// int main(void)
-// {
-//     int pipefd[2];
-    
-//     pipe(pipefd);
-
-//     int childPid = fork();
-//     if (childPid == 0)
-//     {
-//         char *av[] = {"/bin/echo", "hello_ _world", NULL};
-    
-//         close(pipefd[0]);
-//         dup2(pipefd[1], 1);
-//         close(pipefd[1]);
-
-//         if (execv(av[0], av) == -1)
-//         {
-//             perror("execv: ");
-//         }
-//         exit(0);
-//     }
-
-//     char *av[] = {"/usr/bin/tr", "-d", "_", NULL};
-
-//     close(pipefd[1]);
-//     dup2(pipefd[0], 0);
-//     close(pipefd[0]);
-//     if (execv(av[0], av) == -1)
-//     {
-//         perror("execv: ");
-//     }
-//     return (0);
-// }
-
-
-//COMMUNICATION
-// int main(int argc, char *argv[])
-// {
-//     //fd[0] - read
-//     //fd[1] - write
-//     int fd[2];
-//     int id;
-//     int x;
-//     int y;
-
-//     if (argc <= 1)
-// 		exit(1);
-// 	else if (argc == 2 && !strncmp(argv[1], "mandelbrot", 10))
-//         printf("OOooii\n");
-
-//     if (pipe(fd) == -1) //error
-//     {
-//         printf("Um erro ocorreu com pipe\n");
-//         return (1);
-//     }
-//     id = fork();
-//     if (id == -1) //error
-//     {
-//         printf("Um erro ocorreu com fork\n");
-//         return (4);
-//     }
-//     if (id == 0) //child process
-//     {
-//         close(fd[0]); //close the read end of the pipe
-//         printf("Input a number: ");
-//         scanf("%d", &x);
-//         if (write(fd[1], &x, sizeof(int)) == -1)
-//         {
-//             printf("Um erro ocorreu com write\n");
-//             return (2);
-//         }
-//         close(fd[1]);
-//     }
-//     else
-//     {
-//         close(fd[1]); //i'm not using write here, then close
-//         if (read(fd[0], &y, sizeof(int)) == -1)
-//         {
-//             printf("Um erro ocorreu com read\n");
-//             return (3);
-//         }
-//         close(fd[0]);
-//         printf("Seu número é %d\n", y);
-//     }
-// }

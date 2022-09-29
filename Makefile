@@ -11,7 +11,7 @@ LIBFLAGS = -lft
 CFLAGS += -g -I ${LIBFTDIR} -I ${INCDIR}
 CC = cc
 
-FILES = pipex.c pathname.c
+FILES = pipex.c pathname.c init_data.c
 SRC = ${addprefix ${SRCDIR}, ${FILES}}
 OBJ = ${addprefix ${OBJDIR}, ${FILES:.c=.o}}
 

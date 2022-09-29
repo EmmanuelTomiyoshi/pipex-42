@@ -6,97 +6,113 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:30 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/24 15:15:31 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/09/29 09:22:50 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+//while abrir os pipes de cada comando
+//while executando cada comando
+//while com waitpid pra organizar e deixar na sequência
+
+//saber quantos argumentos tem --> how_many_arguments
+//alocacao do meu array de fds em relação ao número de args
+// // int **array_fd;
+// // array_fd = calloc (sizeof(int *), args - 1); //dinâmico, de acordo com o n° de args
+// // while (i < arg - 1)
+// // array_fd[i] = calloc (sizeof(int), 2); //fixo, porque um pipe só tem 2 lados
+//...
+
+// COMANDO PRINCIPAL
+// ./pipex file1 "sort" "uniq -c" "sort -r" "head -3" file2
 int main(int argc, char *argv[], char *envp[])
 {
-	// pid_t pid = getpid();
-	// < file1 cmd1 | cmd2 > file2
-	// ./pipex infile "ls -l" "wc -l" outfile
-
-	//-----EXAMPLE----
-	//./pipex file1 "ls -l"
-
-	//stdin 0
-	//stdout 1
-	//stderr 2
-	
     t_pipex	pipex;
+	int i;
 	int j;
-	int fd[2];
-	int pid1;
-	int pid2;
-	int argcount;
-	
+
+
+	//--checking for argument errors--
 	if (argc <= 1)
 	{
 		printf("Argumentos insuficientes\n");
 		return (1);
 	}
-	if (pipe(fd) == -1)
-		return (1);
 
-	pipex.infd = open(argv[1], O_WRONLY); //opening fd file1
-	pipex.outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU); //fd file2
+	//--initiating data--
+	init_data(&pipex, argc, argv);
 
-	fd[0] = pipex.infd;
-	fd[1] = pipex.outfd;
-	printf("fd[0]: %d | fd[1]: %d\n", fd[0], fd[1]);
+	printf(GREEN "\nALLOCATING MEMORY FOR FDs\n");
+	printf(RESET "");
+	fd_memory_allocate(&pipex);
+	
+	printf(GREEN "\nPIPE VALUES\n");
+	printf(RESET "");
+	pipe_values(&pipex);
+	
+	printf(GREEN "\nFILE1 & FILE2 FDs\n");
+	printf(RESET "");
+	printf("infd(%d) | outfd(%d)\n", pipex.infd, pipex.outfd);
 
-
-	pid1 = fork();
-	if (pid1 < 0)
+	get_cmd_list(&pipex, argc, argv);
+	
+//-----------------filho1
+	pipex.pid1 = fork();
+	if (pipex.pid1 < 0)
 		return (2);
 	
-	if (pid1 == 0) //child
+	if (pipex.pid1 == 0) //child
 	{
 		split_pathname(&pipex, argv, envp);
 		j = check_path(&pipex);
 		
-		dup2(fd[0], STDOUT_FILENO); //redirecting
-		close(fd[0]);
-		close(fd[1]);		
-		pipex.path = ft_strjoin(pipex.pathVec[j], pipex.bar);
-		if (execve(pipex.path, pipex.cmd, envp) == -1)
-			perror("error\n");
-		printf("Algo deu errado\n");
-	}
-
-//
-	pid2 = fork();
-	if (pid2 < 0)
-		return (3);
-		
-	if (pid2 == 0) //child2
-	{
-		
-		split_pathname(&pipex, argv, envp);
-		j = check_path(&pipex);
-		
-		printf(GREEN "\npathVec[j]:%s | j:%d\nbar:%s\n", pipex.pathVec[j], j, pipex.bar);
-		dup2(fd[1], STDIN_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		
+		dup2(pipex.array_fd[0][0], STDIN_FILENO); //redirecting
+		close(pipex.array_fd[0][0]);
+		close(pipex.array_fd[0][1]);
 		pipex.path = ft_strjoin(pipex.pathVec[j], pipex.bar);
 		
-		if (execve(pipex.path, pipex.cmd, envp) == -1) //
-			perror("error\n");
-		printf("Algo deu errado\n");
+		printf(GREEN "\nFINAL RESULT:\n");
 		printf(RESET "");
+		printf("path: %s | splitted_cmd[%d]: %s | bar: %s\n",
+				pipex.path, j, pipex.splitted_cmd[0], pipex.bar);
+				
+		if (execve(pipex.path, pipex.splitted_cmd, envp) == -1) //no executing after execve?
+			perror("error\n");
+		printf("Algo deu errado\n");
 	}
-//
+// 	}
+
+// // //------------------filho2
+// // 	pipex.pid2 = fork();
+// // 	if (pipex.pid2 < 0)
+// // 		return (3);
+		
+// // 	if (pipex.pid2 == 0) //child2
+// // 	{
+// // 		split_pathname(&pipex, argv, envp);
+// // 		j = check_path(&pipex);
+		
+// // //		printf(GREEN "\npathVec[j]:%s | j:%d\nbar:%s\n", pipex.pathVec[j], j, pipex.bar);
+// // 		dup2(fd[1], STDIN_FILENO);
+// // 		close(fd[0]);
+// // 		close(fd[1]);
+		
+// // 		pipex.path = ft_strjoin(pipex.pathVec[j], pipex.bar);
+		
+// // 		if (execve(pipex.path, pipex.split_cmd, envp) == -1) //
+// // 			perror("error\n");
+// // 		printf("Algo deu errado\n");
+// // 		printf(RESET "");
+// // 	}
+// // //
 
 	//closed by only the main program
-	close(fd[0]);
-	close(fd[1]);
+	close(pipex.array_fd[0][0]);
+	close(pipex.array_fd[0][1]);
 	
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	waitpid(pipex.pid1, NULL, 0);
+	waitpid(pipex.pid2, NULL, 0);
 	
 	return (0);
 }
