@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/29 09:28:36 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:57:23 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ void	init_data(t_pipex *pipex, int argc, char *argv[])
 	printf("cmd count: %d\n", pipex->how_many_cmds);
 	pipex->number_of_pipes = pipex->how_many_cmds - 1;
 	printf("number of pipes: %d\n", pipex->number_of_pipes);
+    
+    pipex->cmd_start = 2; //if here_doc, start with 3
 	
 	//file1 and file2 fds
-	pipex->infd = open(argv[1], O_WRONLY); //opening fd file1
-	pipex->outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU); //fd file2
 
 	//allocating memory for array_fd
 	pipex->array_fd = ft_calloc(sizeof(int *), pipex->number_of_pipes);
+	pipex->splitted_cmd = ft_calloc(sizeof(int *), pipex->how_many_cmds + 1); //
 }
 
 
@@ -66,4 +67,19 @@ void    pipe_values(t_pipex *pipex)
 		}
 		i++;
 	}
+}
+
+void    close_pipes(t_pipex *pipex)
+{
+    int i;
+
+	i = 0;
+    while (i < pipex->number_of_pipes)
+	{
+		close(pipex->array_fd[i][0]);
+        close(pipex->array_fd[i][1]);
+		i++;
+	}
+    close(pipex->infd);
+    close(pipex->outfd);
 }

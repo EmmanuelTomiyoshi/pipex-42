@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:30 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/29 09:22:50 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:55:50 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@
 // ./pipex file1 "sort" "uniq -c" "sort -r" "head -3" file2
 int main(int argc, char *argv[], char *envp[])
 {
-    t_pipex	pipex;
+  t_pipex	pipex;
 	int i;
 	int j;
-
 
 	//--checking for argument errors--
 	if (argc <= 1)
@@ -46,6 +45,9 @@ int main(int argc, char *argv[], char *envp[])
 	printf(GREEN "\nALLOCATING MEMORY FOR FDs\n");
 	printf(RESET "");
 	fd_memory_allocate(&pipex);
+
+	pipex.infd = open(argv[1], O_WRONLY); //opening fd file1
+	pipex.outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU); //fd file2
 	
 	printf(GREEN "\nPIPE VALUES\n");
 	printf(RESET "");
@@ -58,61 +60,56 @@ int main(int argc, char *argv[], char *envp[])
 	get_cmd_list(&pipex, argc, argv);
 	
 //-----------------filho1
-	pipex.pid1 = fork();
-	if (pipex.pid1 < 0)
-		return (2);
-	
-	if (pipex.pid1 == 0) //child
+
+	i = 0;
+
+	while (i < pipex.how_many_cmds)
 	{
-		split_pathname(&pipex, argv, envp);
-		j = check_path(&pipex);
+		pipex.pid1 = fork();
+		if (pipex.pid1 < 0)
+			return (2);
 		
-		dup2(pipex.array_fd[0][0], STDIN_FILENO); //redirecting
-		close(pipex.array_fd[0][0]);
-		close(pipex.array_fd[0][1]);
-		pipex.path = ft_strjoin(pipex.pathVec[j], pipex.bar);
-		
-		printf(GREEN "\nFINAL RESULT:\n");
-		printf(RESET "");
-		printf("path: %s | splitted_cmd[%d]: %s | bar: %s\n",
-				pipex.path, j, pipex.splitted_cmd[0], pipex.bar);
-				
-		if (execve(pipex.path, pipex.splitted_cmd, envp) == -1) //no executing after execve?
-			perror("error\n");
-		printf("Algo deu errado\n");
+		if (pipex.pid1 == 0)
+		{
+			// printf(RED "OI\n");
+			// printf(RESET "");
+			split_pathname(&pipex, argv, envp, i);
+			j = check_path(&pipex, i);
+//
+			if (i == 0)
+			{
+				dup2(pipex.infd, STDIN_FILENO); //entrada
+				dup2(pipex.array_fd[i][1], STDOUT_FILENO); //saída
+			}
+			else if (i != (pipex.how_many_cmds - 1))
+			{
+				dup2(pipex.array_fd[i - 1][0], STDIN_FILENO); //entrada
+				dup2(pipex.array_fd[i][1], STDOUT_FILENO); //saída
+			}
+			else
+			{
+				dup2(pipex.array_fd[i - 1][0], STDIN_FILENO); //entrada
+				dup2(pipex.outfd, STDOUT_FILENO); //saída
+			}
+			close_pipes(&pipex);
+//
+			pipex.path = ft_strjoin(pipex.pathVec[j], pipex.bar);
+			if (execve(pipex.path, pipex.splitted_cmd, envp) == -1)
+			{	
+				perror("execve error: ");
+				exit(COMMAND_NOT_FOUND);
+			}
+			printf("Algo deu errado\n");
+		}
+		i++;
 	}
-// 	}
 
-// // //------------------filho2
-// // 	pipex.pid2 = fork();
-// // 	if (pipex.pid2 < 0)
-// // 		return (3);
-		
-// // 	if (pipex.pid2 == 0) //child2
-// // 	{
-// // 		split_pathname(&pipex, argv, envp);
-// // 		j = check_path(&pipex);
-		
-// // //		printf(GREEN "\npathVec[j]:%s | j:%d\nbar:%s\n", pipex.pathVec[j], j, pipex.bar);
-// // 		dup2(fd[1], STDIN_FILENO);
-// // 		close(fd[0]);
-// // 		close(fd[1]);
-		
-// // 		pipex.path = ft_strjoin(pipex.pathVec[j], pipex.bar);
-		
-// // 		if (execve(pipex.path, pipex.split_cmd, envp) == -1) //
-// // 			perror("error\n");
-// // 		printf("Algo deu errado\n");
-// // 		printf(RESET "");
-// // 	}
-// // //
-
-	//closed by only the main program
-	close(pipex.array_fd[0][0]);
-	close(pipex.array_fd[0][1]);
-	
-	waitpid(pipex.pid1, NULL, 0);
-	waitpid(pipex.pid2, NULL, 0);
+//
+	int status;
+	close_pipes(&pipex);
+	waitpid(pipex.pid1, &status, 0);
+	printf("status:%d\n", WEXITSTATUS(status));
+//
 	
 	return (0);
 }

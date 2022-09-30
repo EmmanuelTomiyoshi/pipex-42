@@ -42,4 +42,7 @@ norm:
 	@clear
 	@norminette ${SRC} ${INCDIR}* | grep Error || true
 
+test: ${NAME}
+	./pipex file1 "ls -la" "wc -l" file2
+
 .PHONY: re fclean clean all norm
