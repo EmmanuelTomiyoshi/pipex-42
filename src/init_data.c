@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/30 15:14:06 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/01 10:49:09 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,11 @@ void	init_data(t_pipex *pipex, int argc)
 	ft_printf(RESET "");
 	ft_printf("total number of arguments: %d\n", argc);
 	pipex->how_many_cmds = (argc - 3);
-	ft_printf("cmd count: %d\n", pipex->how_many_cmds);
+	ft_printf("how many cmds: %d\n", pipex->how_many_cmds);
 	pipex->number_of_pipes = pipex->how_many_cmds - 1;
 	ft_printf("number of pipes: %d\n", pipex->number_of_pipes);
     
     pipex->cmd_start = 2; //if here_doc, start with 3
-	
-	//file1 and file2 fds
 
 	//allocating memory for array_fd
 	pipex->array_fd = ft_calloc(sizeof(int *), pipex->number_of_pipes);

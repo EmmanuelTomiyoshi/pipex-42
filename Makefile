@@ -16,7 +16,7 @@ CFLAGS += -g -I ${FT_PRINTFDIR} -I ${LIBFTDIR} -I ${INCDIR}
 LIBFLAGS = -lft -lftprintf
 CC = cc
 
-FILES = pipex.c pathname.c init_data.c handle_error.c keep_track_of_the_code.c
+FILES = pipex.c pathname.c init_data.c handle_error.c keep_track_of_the_code.c child_process.c
 SRC = ${addprefix ${SRCDIR}, ${FILES}}
 OBJ = ${addprefix ${OBJDIR}, ${FILES:.c=.o}}
 

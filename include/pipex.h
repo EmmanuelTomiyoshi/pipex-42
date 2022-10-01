@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:58 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/30 15:14:21 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/01 10:51:19 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ typedef struct	s_pipex
 	char		**pathVec;
 	char		**splitted_cmd;
 	char		**cmd_list;
-	char 		*path;
+	char 		*path_element;
 	char		*bar;
-	char		*var;
+	char		*path;
 	int			how_many_cmds;
 	int			sizeof_cmd;
 	int			cmd_start;
@@ -62,6 +62,7 @@ void	fd_memory_allocate(t_pipex *pipex);
 void    pipe_values(t_pipex *pipex);
 void    close_pipes(t_pipex *pipex);
 int		check_path(t_pipex *pipex, int count);
+void	child_process_execution(t_pipex *pipex, char *argv[], char *envp[], int i);
 void	split_pathname(t_pipex *pipex, char *argv[], char *envp[], int count);
 int		get_cmd_list(t_pipex *pipex, char **argv);
 
