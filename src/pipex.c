@@ -6,58 +6,38 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:30 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/30 12:55:50 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:34:53 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-//while abrir os pipes de cada comando
-//while executando cada comando
-//while com waitpid pra organizar e deixar na sequência
-
-//saber quantos argumentos tem --> how_many_arguments
-//alocacao do meu array de fds em relação ao número de args
-// // int **array_fd;
-// // array_fd = calloc (sizeof(int *), args - 1); //dinâmico, de acordo com o n° de args
-// // while (i < arg - 1)
-// // array_fd[i] = calloc (sizeof(int), 2); //fixo, porque um pipe só tem 2 lados
-//...
-
-// COMANDO PRINCIPAL
-// ./pipex file1 "sort" "uniq -c" "sort -r" "head -3" file2
 int main(int argc, char *argv[], char *envp[])
 {
-  t_pipex	pipex;
-	int i;
-	int j;
+	t_pipex	pipex;
+	int		i;
+	int		j;
 
-	//--checking for argument errors--
-	if (argc <= 1)
-	{
-		printf("Argumentos insuficientes\n");
-		return (1);
-	}
-
-	//--initiating data--
-	init_data(&pipex, argc, argv);
-
-	printf(GREEN "\nALLOCATING MEMORY FOR FDs\n");
-	printf(RESET "");
+	error_not_enough_args(&pipex, argc);
+	init_data(&pipex, argc);
+	error_not_enough_cmds(&pipex);
+//
+	ft_printf(GREEN "\nALLOCATING MEMORY FOR FDs\n");
+	ft_printf(RESET "");
 	fd_memory_allocate(&pipex);
 
 	pipex.infd = open(argv[1], O_WRONLY); //opening fd file1
 	pipex.outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU); //fd file2
 	
-	printf(GREEN "\nPIPE VALUES\n");
-	printf(RESET "");
+	ft_printf(GREEN "\nPIPE VALUES\n");
+	ft_printf(RESET "");
 	pipe_values(&pipex);
 	
-	printf(GREEN "\nFILE1 & FILE2 FDs\n");
-	printf(RESET "");
-	printf("infd(%d) | outfd(%d)\n", pipex.infd, pipex.outfd);
+	ft_printf(GREEN "\nFILE1 & FILE2 FDs\n");
+	ft_printf(RESET "");
+	ft_printf("infd(%d) | outfd(%d)\n", pipex.infd, pipex.outfd);
 
-	get_cmd_list(&pipex, argc, argv);
+	get_cmd_list(&pipex, argv);
 	
 //-----------------filho1
 
@@ -71,8 +51,8 @@ int main(int argc, char *argv[], char *envp[])
 		
 		if (pipex.pid1 == 0)
 		{
-			// printf(RED "OI\n");
-			// printf(RESET "");
+			// ft_printf(RED "OI\n");
+			// ft_printf(RESET "");
 			split_pathname(&pipex, argv, envp, i);
 			j = check_path(&pipex, i);
 //
@@ -99,7 +79,7 @@ int main(int argc, char *argv[], char *envp[])
 				perror("execve error: ");
 				exit(COMMAND_NOT_FOUND);
 			}
-			printf("Algo deu errado\n");
+			ft_printf("Algo deu errado\n");
 		}
 		i++;
 	}
@@ -108,7 +88,7 @@ int main(int argc, char *argv[], char *envp[])
 	int status;
 	close_pipes(&pipex);
 	waitpid(pipex.pid1, &status, 0);
-	printf("status:%d\n", WEXITSTATUS(status));
+	ft_printf("status:%d\n", WEXITSTATUS(status));
 //
 	
 	return (0);

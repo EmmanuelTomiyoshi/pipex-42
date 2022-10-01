@@ -6,21 +6,21 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/30 11:57:23 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:14:06 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	init_data(t_pipex *pipex, int argc, char *argv[])
+void	init_data(t_pipex *pipex, int argc)
 {
-	printf(GREEN "\nINIT DATA\n");
-	printf(RESET "");
-	printf("total number of arguments: %d\n", argc);
+	ft_printf(GREEN "\nINIT DATA\n");
+	ft_printf(RESET "");
+	ft_printf("total number of arguments: %d\n", argc);
 	pipex->how_many_cmds = (argc - 3);
-	printf("cmd count: %d\n", pipex->how_many_cmds);
+	ft_printf("cmd count: %d\n", pipex->how_many_cmds);
 	pipex->number_of_pipes = pipex->how_many_cmds - 1;
-	printf("number of pipes: %d\n", pipex->number_of_pipes);
+	ft_printf("number of pipes: %d\n", pipex->number_of_pipes);
     
     pipex->cmd_start = 2; //if here_doc, start with 3
 	
@@ -40,7 +40,7 @@ void    fd_memory_allocate(t_pipex *pipex)
     while (i < pipex->number_of_pipes)
     {
         pipex->array_fd[i] = ft_calloc(sizeof(int), 2);
-        printf("%d) array_fd[%ls]\n", i, pipex->array_fd[i]);
+        ft_printf("%d) array_fd[%ls]\n", i, pipex->array_fd[i]);
         i++;
     }
 }
@@ -62,7 +62,7 @@ void    pipe_values(t_pipex *pipex)
 		k = 0;
 		while (k <= 1)
 		{
-			printf("%d): array_fd[%d][%d]\n", i, i, k);
+			ft_printf("%d): array_fd[%d][%d]\n", i, i, k);
 			k++;
 		}
 		i++;

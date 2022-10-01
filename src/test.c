@@ -1,34 +1,46 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 20:02:39 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/09/29 20:45:48 by etomiyos         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <stdio.h>
 
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h> 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include <time.h>
-# include <sys/wait.h>
-# include <errno.h>
+int sum(int a, int b);
+int sub(int a, int b);
+int mul(int a, int b);
+int div(int a, int b);
 
+int (*p[4]) (int x, int y);
 
-int main(int argc, char **argv, char **envp)
+int main(void)
 {
-	int fd;
+    int result;
+    int j;
+    int i;
 
-	fd = open("file1.txt", O_WRONLY | O_APPEND);
+    i = 3;
+    j = 9;
 
-	dup2(fd, STDOUT_FILENO);
-	
-	printf("Ola ola ola");
+    p[0] = sum;
+    p[1] = sub;
+    p[2] = mul;
+    p[3] = div;
+
+    result = (*p[0]) (i, j);
+    printf("%d\n", result);
+}
+
+int sum(int a, int b)
+{
+    return (a + b);
+}
+
+int sub(int a, int b)
+{
+    return (a - b);
+}
+
+int mul(int a, int b)
+{
+    return (a * b);
+}
+
+int div(int a, int b)
+{
+    return (a / b);
 }
