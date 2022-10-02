@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:30 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/01 20:06:23 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/02 10:40:42 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int	main(int argc, char *argv[], char *envp[])
 	int		i;
 	int		status;
 
-	error_not_enough_args(argc);
+	if (error_not_enough_args(argc) == 1)
+		return (1); //
 	init_data(&pipex, argc, argv);
-	error_not_enough_cmds(&pipex);
+	error_not_enough_cmds(&pipex); //
 	fd_memory_allocate(&pipex);
 	pipe_values(&pipex);
 	get_cmd_list(&pipex, argv);

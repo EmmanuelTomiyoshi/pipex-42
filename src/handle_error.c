@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:17:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/01 19:54:59 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/02 11:21:09 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 int	error_not_enough_cmds(t_pipex *pipex)
 {
 	if (pipex->number_of_pipes == 0)
-		return (printf("Error! Command count is\n"));
+	{
+		printf("Error! Command count is\n");
+		return (1);
+	}
 	return (0);
 }
 
 int	error_not_enough_args(int argc)
 {
-	if (argc <= 1)
+	if (argc != 5)
 	{
-		printf("Argumentos insuficientes\n");
+		printf("Invalid arguments\n");
 		return (1);
 	}
 	return (0);
