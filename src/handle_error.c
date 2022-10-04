@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:17:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/02 11:21:09 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/03 15:13:57 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	error_not_enough_cmds(t_pipex *pipex)
 	return (0);
 }
 
-int	error_not_enough_args(int argc)
+int	error_not_enough_args(t_pipex *pipex)
 {
-	if (argc != 5)
+	if (pipex->how_many_cmds < 2)
 	{
-		printf("Invalid arguments\n");
+		invalid_args_msg();
 		return (1);
 	}
 	return (0);
@@ -50,4 +50,10 @@ void	free_int_array_memory(int **my_array, int count)
 		free(my_array[i]);
 		i++;
 	}
+}
+
+void	invalid_args_msg()
+{
+	ft_printf(INVALID_ARGS PIPEX_EXAMPLE_1 EXPECTED_EXAMPLE_1
+		PIPEX_EXAMPLE_2 EXPECTED_EXAMPLE_2);
 }

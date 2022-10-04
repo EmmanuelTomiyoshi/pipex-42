@@ -6,18 +6,25 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 10:33:40 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/01 20:08:50 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:08:59 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	child_process_check(t_pipex *pipex, char *envp[], int i)
+
+int	child_process_check(t_pipex *pipex, char *envp[], int i)
 {
 	int	j;
 
 	split_pathname(pipex, envp, i);
-	j = check_path(pipex);
+	j = append_path(pipex);
+	// if (j == CMD_NOT_FOUND)
+	// {
+	// 	// invalid_args_msg();
+	// 	printf ("%d) deu ruim\n", j);
+	// 	return (CMD_NOT_FOUND);
+	// }
 	if (i == 0)
 	{
 		dup2(pipex->infd, STDIN_FILENO);
@@ -37,6 +44,7 @@ void	child_process_check(t_pipex *pipex, char *envp[], int i)
 	pipex->path_element = ft_strjoin(pipex->path_vec[j], pipex->bar);
 	child_process_execution(pipex, envp);
 	ft_printf("Algo deu errado\n");
+	return (0);
 }
 
 void	child_process_execution(t_pipex *pipex, char *envp[])
@@ -44,6 +52,6 @@ void	child_process_execution(t_pipex *pipex, char *envp[])
 	if (execve(pipex->path_element, pipex->splitted_cmd, envp) == -1)
 	{	
 		perror("execve error: ");
-		exit(COMMAND_NOT_FOUND);
+		exit(CMD_NOT_FOUND);
 	}
 }
