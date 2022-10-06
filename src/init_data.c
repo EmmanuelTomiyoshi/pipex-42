@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 11:29:02 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:27:04 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_data(t_pipex *pipex, int argc, char *argv[], char *envp[])
 	init_dynamic_data(pipex, argv);
 	init_fd_data(pipex);
 	init_pipe_values(pipex);
+	printftesting(pipex, 3);
 }
 
 void	init_static_data(t_pipex *pipex, int argc, char *envp[])
@@ -27,6 +28,7 @@ void	init_static_data(t_pipex *pipex, int argc, char *envp[])
 	pipex->cmd_start = 2;
 	pipex->pipe_number = pipex->cmd_number - 1;
 	split_pathname(pipex, envp);
+	printftesting(pipex, 1);
 }
 
 void	init_dynamic_data(t_pipex *pipex, char *argv[])
@@ -36,4 +38,5 @@ void	init_dynamic_data(t_pipex *pipex, char *argv[])
 	pipex->pid_fd = ft_calloc(sizeof(int), pipex->cmd_number);
 	init_argv_data(pipex, argv);
 	get_cmd_list(pipex, argv);
+	printftesting(pipex, 2);
 }

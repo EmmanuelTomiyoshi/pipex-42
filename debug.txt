@@ -1,12 +1,22 @@
+
+#INIT STATIC DATA
+argc: 5
+cmd_number: 2
+cmd_start: 2
+pipe_number: 1
+
+#ARGV DATA
 0) argv[0] = ./pipex
 1) argv[1] = file1
 2) argv[2] = ls -l
 3) argv[3] = wc -l
 4) argv[4] = file2
 
-0) pipex->path_element: /usr/bin/ls
-1) pipex->path_element: /usr/bin/wc
-1) args: wc
-1) args: -l
-0) args: ls
-0) args: -l
+#CMD LIST
+cmd[0] = "ls -l" 
+cmd[1] = "wc -l" 
+
+#FILE DESCRIPTORS
+infd(4) | outfd(5)
+0) pipe_fds[0][0]
+0) pipe_fds[0][1]

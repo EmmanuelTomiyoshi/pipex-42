@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:20:38 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 10:53:56 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:17:12 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	init_argv_data(t_pipex *pipex, char *argv[])
 	while (i < pipex->argc)
 	{
 		pipex->argv[i] = argv[i];
-		dprintf(pipex->fd_debug, "%d) argv[%d] = %s\n", i, i, pipex->argv[i]);
 		i++;
 	}
-	dprintf(pipex->fd_debug, "\n");
 }
 
 void	get_cmd_list(t_pipex *pipex, char *argv[])

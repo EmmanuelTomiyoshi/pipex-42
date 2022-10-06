@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 10:33:40 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 11:33:03 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:00:06 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,8 @@ int	child_process_check(t_pipex *pipex, char *envp[], int i)
 	int	j;
 
 	j = check_path(pipex, i);
-	// if (j == CMD_NOT_FOUND)
-	// {
-	// 	// invalid_args_msg();
-	// 	printf ("%d) deu ruim\n", j);
-	// 	return (CMD_NOT_FOUND);
-	// }
+	if (j == CMD_NOT_FOUND)
+		exit(CMD_NOT_FOUND);
 	dup_redirection(pipex, i);
 	close_pipes(pipex);
 	if (j < 0)
@@ -60,9 +56,6 @@ void	child_process_execution(t_pipex *pipex, char *envp[], int count)
 		free_memory(pipex);
 		exit(CMD_NOT_FOUND);
 	}
-	dprintf(pipex->fd_debug, "%d) pipex->path_element: %s\n", count, pipex->path_element);
-	dprintf(pipex->fd_debug, "%d) args: %s\n", count, pipex->splitted_cmd[count][0]);
-	dprintf(pipex->fd_debug, "%d) args: %s\n", count, pipex->splitted_cmd[count][1]);
 	if (execve(pipex->path_element, pipex->splitted_cmd[count], envp) == -1)
 	{
 		free_memory(pipex);
@@ -70,4 +63,3 @@ void	child_process_execution(t_pipex *pipex, char *envp[], int count)
 	}
 	free_memory(pipex);
 }
-

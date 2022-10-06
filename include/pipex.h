@@ -1,4 +1,4 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:58 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/03 08:54:11 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:11:27 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	error_pipex(int status, char *desc);
 void	invalid_args_msg(void);
 
 //fork child
-void    forking(t_pipex *pipex, char *envp[]);
+void	forking(t_pipex *pipex, char *envp[]);
 void	child_process_execution(t_pipex *pipex, char *envp[], int count);
 void	dup_redirection(t_pipex *pipex, int i);
 int		child_process_check(t_pipex *pipex, char *envp[], int i);
@@ -89,6 +89,9 @@ void	close_pipes(t_pipex *pipex);
 void	free_memory(t_pipex *pipex);
 void	free_int_array_memory(int **my_array, int count);
 void	free_char_array_memory(char **my_array);
-void    wait_status(t_pipex *pipex);
+void	wait_status(t_pipex *pipex);
+
+//tests
+void	printftesting(t_pipex *pipex, int i);
 
 #endif

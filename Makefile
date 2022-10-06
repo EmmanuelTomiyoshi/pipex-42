@@ -18,7 +18,8 @@ CC = cc
 
 FILES = pipex.c pathname.c init_data.c handle_error.c child_process.c \
 		close_pipes.c init_cmd_data.c init_pipe_data.c \
-		free_memory.c forking.c wait_status.c
+		free_memory.c forking.c wait_status.c \
+		printftesting.c
 SRC = ${addprefix ${SRCDIR}, ${FILES}}
 OBJ = ${addprefix ${OBJDIR}, ${FILES:.c=.o}}
 
