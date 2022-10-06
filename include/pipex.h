@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:58 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 14:11:27 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 18:49:46 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void	init_pipe_values(t_pipex *pipex);
 void	split_pathname(t_pipex *pipex, char *envp[]);
 
 //handle_error
+void	error_pipex(int status, char *desc);
 void	handle_error(t_pipex *pipex);
 int		error_not_enough_args(t_pipex *pipex);
 int		error_not_enough_cmds(t_pipex *pipex);
 void	error_pipex(int status, char *desc);
-void	invalid_args_msg(void);
 
 //fork child
 void	forking(t_pipex *pipex, char *envp[]);

@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:17:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 11:50:10 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 18:49:35 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	error_not_enough_args(t_pipex *pipex)
 {
 	if (pipex->cmd_number < 2)
 	{
-		invalid_args_msg();
 		return (1);
 	}
 	return (0);
@@ -34,7 +33,6 @@ int	error_not_enough_cmds(t_pipex *pipex)
 {
 	if (pipex->pipe_number == 0)
 	{
-		printf("Error! Command count is\n");
 		return (1);
 	}
 	return (0);
@@ -50,10 +48,4 @@ void	error_pipex(int status, char *desc)
 	}
 	else
 		strerror(status);
-}
-
-void	invalid_args_msg(void)
-{
-	ft_printf(INVALID_ARGS PIPEX_EXAMPLE_1 EXPECTED_EXAMPLE_1
-		PIPEX_EXAMPLE_2 EXPECTED_EXAMPLE_2);
 }

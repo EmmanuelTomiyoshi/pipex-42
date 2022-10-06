@@ -8,15 +8,19 @@ pipe_number: 1
 #ARGV DATA
 0) argv[0] = ./pipex
 1) argv[1] = file1
-2) argv[2] = ls -l
-3) argv[3] = wc -l
+2) argv[2] = cat
+3) argv[3] = grep gewoon
 4) argv[4] = file2
 
 #CMD LIST
-cmd[0] = "ls -l" 
-cmd[1] = "wc -l" 
+cmd[0] = "cat" 
+cmd[1] = "grep gewoon" 
 
 #FILE DESCRIPTORS
 infd(4) | outfd(5)
-0) pipe_fds[0][0]
-0) pipe_fds[0][1]
+0) pipe_fd[0][0]
+0) pipe_fd[0][1]
+pe_fd[0][0]
+0) pipe_fd[0][1]
+1) pipe_fd[1][0]
+1) pipe_fd[1][1]

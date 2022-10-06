@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:30 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 14:01:20 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:28:51 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ int	main(int argc, char *argv[], char *envp[])
 	close_pipes(&pipex);
 	wait_status(&pipex);
 	close(pipex.fd_debug);
-	if (pipex.status == 0)
-		printf("OK!\n");
-	else
-		printf("KO!\n");
 	free_memory(&pipex);
-	return (0);
+	return (pipex.status);
 }

@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:20:38 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 14:17:12 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 18:57:26 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_cmd_list(t_pipex *pipex, char *argv[])
 
 	i = 2;
 	j = 0;
-	pipex->cmd_list = calloc(sizeof(char *), pipex->cmd_number);
+	pipex->cmd_list = ft_calloc(sizeof(char *), pipex->cmd_number);
 	while (i <= pipex->cmd_number + 1)
 	{
 		pipex->cmd_list[j] = argv[i];

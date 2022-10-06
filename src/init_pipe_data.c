@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:42:41 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 10:49:37 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:24:38 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 void	init_fd_data(t_pipex *p)
 {
-	p->infd = open(p->argv[1], O_WRONLY);
-	p->outfd = open(p->argv[p->argc - 1], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
+	p->infd = open(p->argv[1], O_RDONLY);
+	if (p->infd < 0)
+	{
+		if (!access(p->argv[1], F_OK))
+			exit(0);
+		exit(1);
+	}
+	p->outfd = open(p->argv[p->argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (p->outfd < 0)
+		exit(1);
 	fd_memory_allocate(p);
 }
 
