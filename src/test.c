@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 08:51:32 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 09:46:34 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:01:42 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 // typedef struct  s_pipex
 // {
-//     char    **argv_copy;
+//     char    **argv;
 //     int     argc;
 // }               t_pipex;
 
@@ -42,14 +42,14 @@
 // 	int i;
 
 // 	i = 0;
-// 	pipex->argv_copy = ft_calloc(sizeof(char *), pipex->argc + 1);
+// 	pipex->argv = ft_calloc(sizeof(char *), pipex->argc + 1);
     
-//     pipex->argv_copy[i] = ft_calloc(sizeof(char), strlen(argv[i]) + 1);
+//     pipex->argv[i] = ft_calloc(sizeof(char), strlen(argv[i]) + 1);
 	
 // 	while (i < pipex->argc)
 // 	{
-// 		pipex->argv_copy[i] = argv[i];
-// 		printf("%d) argv[%d] = %s\n", i, i, pipex->argv_copy[i]);
+// 		pipex->argv[i] = argv[i];
+// 		printf("%d) argv[%d] = %s\n", i, i, pipex->argv[i]);
 // 		i++;
 // 	}
 // }

@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   forking.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 12:24:30 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 11:44:24 by etomiyos         ###   ########.fr       */
+/*   Created: 2022/10/06 11:35:38 by etomiyos          #+#    #+#             */
+/*   Updated: 2022/10/06 11:37:09 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char *argv[], char *envp[])
+void    forking(t_pipex *pipex, char *envp[])
 {
-	t_pipex	pipex;
-	
-	pipex.fd_debug = open("debug.txt", O_CREAT | O_RDWR, 0777); //>
-	pipex.status = 0; //>
-	
-	init_data(&pipex, argc, argv, envp);
-	handle_error(&pipex);
-	
-	forking(&pipex, envp);
-	close_pipes(&pipex);
+    int i;
 
-	wait_status(&pipex);
-	close(pipex.fd_debug); //
-
-	if (pipex.status == 0)
-		printf("OK!\n");
-	else
-		printf("KO!\n");
-	free_memory(&pipex);
-	return (0);
+    i = 0;
+    while (i < pipex->cmd_number)
+	{
+		pipex->splitted_cmd[i] = ft_split(pipex->cmd_list[i], ' '); //
+		pipex->pid_fd[i] = fork();
+		if (pipex->pid_fd[i] < 0)
+			exit(1);
+		if (pipex->pid_fd[i] == 0)
+			pipex->status = child_process_check(pipex, envp, i);
+		i++;
+	}
 }

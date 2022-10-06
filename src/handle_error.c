@@ -6,20 +6,18 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:17:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 09:34:40 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:50:10 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	error_not_enough_cmds(t_pipex *pipex)
+void	handle_error(t_pipex *pipex)
 {
-	if (pipex->number_of_pipes == 0)
-	{
-		printf("Error! Command count is\n");
-		return (1);
-	}
-	return (0);
+	if (error_not_enough_args(pipex) == 1)
+		exit(1);
+	if (error_not_enough_cmds(pipex) == 1)
+		exit(1);
 }
 
 int	error_not_enough_args(t_pipex *pipex)
@@ -32,50 +30,29 @@ int	error_not_enough_args(t_pipex *pipex)
 	return (0);
 }
 
-void	free_memory(t_pipex *pipex)
+int	error_not_enough_cmds(t_pipex *pipex)
 {
-	int i;
-	
-	free(pipex->cmd_list);	
-	i = 0;
-	while (i < pipex->cmd_number)
+	if (pipex->pipe_number == 0)
 	{
-		free_char_array_memory(pipex->splitted_cmd[i]);
-		i++;
+		printf("Error! Command count is\n");
+		return (1);
 	}
-	free(pipex->splitted_cmd);
-	free_char_array_memory(pipex->path_vec);
-	free_int_array_memory(pipex->array_fd, pipex->number_of_pipes);
-	free(pipex->pid_fd);
-	free(pipex->array_fd);
+	return (0);
 }
 
-void	free_char_array_memory(char **my_array)
+void	error_pipex(int status, char *desc)
 {
-	int	i;
-
-	i = 0;
-	while (my_array[i] != NULL)
+	if (status == 127)
 	{
-		free(my_array[i]);
-		i++;
+		write(2, desc, ft_strlen(desc));
+		write(2, ": ", 2);
+		write(2, MSG_CMD_NOT_FOUND, ft_strlen(MSG_CMD_NOT_FOUND));
 	}
-	free(my_array);
+	else
+		strerror(status);
 }
 
-void	free_int_array_memory(int **my_array, int count)
-{
-	int	i;
-
-	i = 0;
-	while (i < count)
-	{
-		free(my_array[i]);
-		i++;
-	}
-}
-
-void	invalid_args_msg()
+void	invalid_args_msg(void)
 {
 	ft_printf(INVALID_ARGS PIPEX_EXAMPLE_1 EXPECTED_EXAMPLE_1
 		PIPEX_EXAMPLE_2 EXPECTED_EXAMPLE_2);

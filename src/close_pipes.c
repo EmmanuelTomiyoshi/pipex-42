@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   close_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/18 12:24:30 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 11:44:24 by etomiyos         ###   ########.fr       */
+/*   Created: 2022/10/06 10:15:03 by etomiyos          #+#    #+#             */
+/*   Updated: 2022/10/06 10:24:02 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char *argv[], char *envp[])
+void	close_pipes(t_pipex *pipex)
 {
-	t_pipex	pipex;
-	
-	pipex.fd_debug = open("debug.txt", O_CREAT | O_RDWR, 0777); //>
-	pipex.status = 0; //>
-	
-	init_data(&pipex, argc, argv, envp);
-	handle_error(&pipex);
-	
-	forking(&pipex, envp);
-	close_pipes(&pipex);
+	int	i;
 
-	wait_status(&pipex);
-	close(pipex.fd_debug); //
-
-	if (pipex.status == 0)
-		printf("OK!\n");
-	else
-		printf("KO!\n");
-	free_memory(&pipex);
-	return (0);
+	i = 0;
+	while (i < pipex->pipe_number)
+	{
+		close(pipex->array_fd[i][0]);
+		close(pipex->array_fd[i][1]);
+		i++;
+	}
+	close(pipex->infd);
+	close(pipex->outfd);
 }

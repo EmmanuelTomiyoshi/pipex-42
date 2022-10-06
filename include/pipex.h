@@ -37,47 +37,58 @@ typedef struct s_cmd
 typedef struct s_pipex
 {
 	int			argc;
-	char		**argv_copy;
+	char		**argv;
+	char		**envp;
+	int			cmd_number;
+	int			cmd_start;
+	int			pipe_number;
 
 	int			infd;
 	int			outfd;
 	int			**array_fd;
-	int			*pid_fd;
-	char		**path_vec;
 	char		***splitted_cmd;
+	int			*pid_fd;
 	char		**cmd_list;
+
+	char		**envp_path_list;
 	char		*path_element;
 	char		*bar;
 	char		*path;
-	int			cmd_number;
-	int			cmd_start;
-	int			number_of_pipes;
+
+	int			status;
 	int			fd_debug;
-	// int			the_status;
 }				t_pipex;
 
-void	init_data(t_pipex *pipex, int argc, char *argv[]);
-void	dynamic_data(t_pipex *pipex, char *argv[] /*char *envp[]*/);
-
-
-void	pipe_values(t_pipex *pipex);
+//init data
+void	init_data(t_pipex *pipex, int argc, char *argv[], char *envp[]);
+void	init_static_data(t_pipex *pipex, int argc, char *envp[]);
+void	init_dynamic_data(t_pipex *pipex, char *argv[]);
+void	init_argv_data(t_pipex *pipex, char *argv[]);
+void	get_cmd_list(t_pipex *pipex, char *argv[]);
+void	init_fd_data(t_pipex *p);
 void	fd_memory_allocate(t_pipex *pipex);
-int		get_cmd_list(t_pipex *pipex, char **argv);
-int		path_operations(t_pipex *pipex, char *envp[], int i);
-int		check_path(t_pipex *pipex, int count);
-int		check_my_path(t_pipex *pipex);
+void	init_pipe_values(t_pipex *pipex);
 void	split_pathname(t_pipex *pipex, char *envp[]);
-void	child_process_execution(t_pipex *pipex, char *envp[], int count);
-int		child_process_check(t_pipex *pipex, char *envp[], int i);
-int		error_not_enough_cmds(t_pipex *pipex);
+
+//handle_error
+void	handle_error(t_pipex *pipex);
 int		error_not_enough_args(t_pipex *pipex);
+int		error_not_enough_cmds(t_pipex *pipex);
+void	error_pipex(int status, char *desc);
+void	invalid_args_msg(void);
+
+//fork child
+void    forking(t_pipex *pipex, char *envp[]);
+void	child_process_execution(t_pipex *pipex, char *envp[], int count);
+void	dup_redirection(t_pipex *pipex, int i);
+int		child_process_check(t_pipex *pipex, char *envp[], int i);
+int		check_path(t_pipex *pipex, int count);
+
+//close, free and wait
 void	close_pipes(t_pipex *pipex);
 void	free_memory(t_pipex *pipex);
 void	free_int_array_memory(int **my_array, int count);
 void	free_char_array_memory(char **my_array);
-void	invalid_args_msg();
-void	check_status(t_pipex *pipex, int status);
-void	check_error(t_pipex *pipex);
-void	error_pipex(int status, char *desc);
+void    wait_status(t_pipex *pipex);
 
 #endif
