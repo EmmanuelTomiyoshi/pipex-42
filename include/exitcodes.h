@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 08:54:29 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/03 14:22:48 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/05 09:30:22 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define CMD_CANT_EXECUTE 126
 # define CMD_NOT_FOUND 127
 # define EX_INVALID_ARG 128
+# define MSG_CMD_NOT_FOUND "command not found\n"
 
 # define INVALID_ARGS "INVALID ARGUMENTS.\n \
 Please try one of the following examples:\n\n"

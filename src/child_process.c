@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 10:33:40 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/04 15:08:59 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 09:34:27 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	child_process_check(t_pipex *pipex, char *envp[], int i)
 {
 	int	j;
 
-	split_pathname(pipex, envp, i);
-	j = append_path(pipex);
+	j = check_path(pipex, i);
 	// if (j == CMD_NOT_FOUND)
 	// {
 	// 	// invalid_args_msg();
@@ -30,7 +29,7 @@ int	child_process_check(t_pipex *pipex, char *envp[], int i)
 		dup2(pipex->infd, STDIN_FILENO);
 		dup2(pipex->array_fd[i][1], STDOUT_FILENO);
 	}
-	else if (i != (pipex->how_many_cmds - 1))
+	else if (i != (pipex->cmd_number - 1))
 	{
 		dup2(pipex->array_fd[i - 1][0], STDIN_FILENO);
 		dup2(pipex->array_fd[i][1], STDOUT_FILENO);
@@ -41,17 +40,30 @@ int	child_process_check(t_pipex *pipex, char *envp[], int i)
 		dup2(pipex->outfd, STDOUT_FILENO);
 	}
 	close_pipes(pipex);
-	pipex->path_element = ft_strjoin(pipex->path_vec[j], pipex->bar);
-	child_process_execution(pipex, envp);
+	if (j < 0)
+		pipex->path_element = '\0';
+	else
+		pipex->path_element = ft_strjoin(pipex->path_vec[j], pipex->bar);
+	child_process_execution(pipex, envp, i);
 	ft_printf("Algo deu errado\n");
 	return (0);
 }
 
-void	child_process_execution(t_pipex *pipex, char *envp[])
+void	child_process_execution(t_pipex *pipex, char *envp[], int count)
 {
-	if (execve(pipex->path_element, pipex->splitted_cmd, envp) == -1)
-	{	
-		perror("execve error: ");
+	if (pipex->path_element == NULL)
+	{
+		free_memory(pipex);
 		exit(CMD_NOT_FOUND);
 	}
+	dprintf(pipex->fd_debug, "%d) pipex->path_element: %s\n", count, pipex->path_element);
+	dprintf(pipex->fd_debug, "%d) args: %s\n", count, pipex->splitted_cmd[count][0]);
+	dprintf(pipex->fd_debug, "%d) args: %s\n", count, pipex->splitted_cmd[count][1]);
+	if (execve(pipex->path_element, pipex->splitted_cmd[count], envp) == -1)
+	{
+		free_memory(pipex);
+		exit(errno);
+	}
+	free_memory(pipex);
 }
+

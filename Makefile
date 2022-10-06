@@ -11,7 +11,7 @@ OBJDIR = obj/
 INCDIR = include/
 
 LIBFLAGS = -lft
-CFLAGS = -Wall -Werror -Wextra
+#CFLAGS = -Wall -Werror -Wextra
 CFLAGS += -g -I ${FT_PRINTFDIR} -I ${LIBFTDIR} -I ${INCDIR}
 LIBFLAGS = -lft -lftprintf
 CC = cc
@@ -56,5 +56,10 @@ norm:
 
 test: ${NAME}
 	./pipex file1 "ls -la" "wc -l" file2
+
+leaks: ${NAME}
+	@clear
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+	--trace-children=yes ./pipex file1 "cat" "cat" file2
 
 .PHONY: re fclean clean all norm

@@ -6,22 +6,42 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/04 16:16:48 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/06 09:37:37 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-//if here_doc, pipex->cmd_start = 3
+void	dynamic_data(t_pipex *pipex, char *argv[] /*char *envp[]*/)
+{
+	int i;
+
+	i = 0;
+	pipex->argv_copy = ft_calloc(sizeof(char *), pipex->argc + 1);
+	
+	while (i < pipex->argc)
+	{
+		pipex->argv_copy[i] = argv[i];
+		dprintf(pipex->fd_debug, "%d) argv[%d] = %s\n", i, i, pipex->argv_copy[i]);
+		i++;
+	}
+	dprintf(pipex->fd_debug, "\n");
+}
+
 void	init_data(t_pipex *pipex, int argc, char *argv[])
 {
-	pipex->how_many_cmds = (argc - 3);
-	pipex->number_of_pipes = pipex->how_many_cmds - 1;
+	pipex->argc = argc;
+	pipex->cmd_number = (argc - 3);
+	pipex->number_of_pipes = pipex->cmd_number - 1;
 	pipex->cmd_start = 2;
+	
 	pipex->array_fd = ft_calloc(sizeof(int *), pipex->number_of_pipes);
-	pipex->splitted_cmd = ft_calloc(sizeof(int *), pipex->how_many_cmds + 1);
+	pipex->splitted_cmd = ft_calloc(sizeof(char **), pipex->cmd_number + 1);
+	pipex->pid_fd = ft_calloc(sizeof(int), pipex->cmd_number);
+	
 	pipex->infd = open(argv[1], O_WRONLY);
 	pipex->outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
+	dynamic_data(pipex, argv); //	
 }
 
 void	fd_memory_allocate(t_pipex *pipex)

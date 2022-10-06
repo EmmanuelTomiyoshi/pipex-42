@@ -1,0 +1,12 @@
+0) argv[0] = ./pipex
+1) argv[1] = file1
+2) argv[2] = ls -l
+3) argv[3] = wc -l
+4) argv[4] = file2
+
+1) pipex->path_element: /usr/bin/wc
+1) args: wc
+1) args: -l
+0) pipex->path_element: /usr/bin/ls
+0) args: ls
+0) args: -l
