@@ -6,25 +6,31 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:42:41 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 19:24:38 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/07 22:01:32 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	init_fd_data(t_pipex *p)
+void	init_fd_data(t_pipex *p, char *argv[])
 {
-	p->infd = open(p->argv[1], O_RDONLY);
-	if (p->infd < 0)
-	{
-		if (!access(p->argv[1], F_OK))
-			exit(0);
-		exit(1);
-	}
-	p->outfd = open(p->argv[p->argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	p->outfd = open(argv[p->argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (p->outfd < 0)
 		exit(1);
-	fd_memory_allocate(p);
+	p->infd = open(argv[1], O_RDONLY);
+	if (p->infd < 0)
+	{
+		if (!access(argv[1], F_OK))
+		{
+			p->infd = open("/dev/null", O_RDONLY);
+			exit(0);
+		}
+		write(2, "bash: ", 6);
+		write(2, argv[1], ft_strlen(argv[1]));
+		write(2, ": ", 2);
+		write(2, NO_FILE, ft_strlen(NO_FILE));
+		exit(1);
+	}
 }
 
 void	fd_memory_allocate(t_pipex *pipex)

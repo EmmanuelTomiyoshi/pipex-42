@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 14:27:04 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/07 22:01:36 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,30 @@
 void	init_data(t_pipex *pipex, int argc, char *argv[], char *envp[])
 {
 	init_static_data(pipex, argc, envp);
-	init_dynamic_data(pipex, argv);
-	init_fd_data(pipex);
-	init_pipe_values(pipex);
-	printftesting(pipex, 3);
+	init_fd_data(pipex, argv);
+	if (pipex->infd != -1)
+	{
+		init_dynamic_data(pipex, argv, envp);
+		fd_memory_allocate(pipex);
+		init_pipe_values(pipex);
+	}
 }
 
 void	init_static_data(t_pipex *pipex, int argc, char *envp[])
 {
 	pipex->argc = argc;
 	pipex->cmd_number = (argc - 3);
-	pipex->cmd_start = 2;
 	pipex->pipe_number = pipex->cmd_number - 1;
-	split_pathname(pipex, envp);
-	printftesting(pipex, 1);
+	pipex->cmd_start = 2;
+	handle_error(pipex);
 }
 
-void	init_dynamic_data(t_pipex *pipex, char *argv[])
+void	init_dynamic_data(t_pipex *pipex, char *argv[], char *envp[])
 {
 	pipex->array_fd = ft_calloc(sizeof(int *), pipex->pipe_number);
 	pipex->splitted_cmd = ft_calloc(sizeof(char **), pipex->cmd_number + 1);
 	pipex->pid_fd = ft_calloc(sizeof(int), pipex->cmd_number);
 	init_argv_data(pipex, argv);
 	get_cmd_list(pipex, argv);
-	printftesting(pipex, 2);
+	split_pathname(pipex, envp);
 }

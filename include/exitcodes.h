@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 08:54:29 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/05 09:30:22 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/07 12:32:03 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # define CMD_NOT_FOUND 127
 # define EX_INVALID_ARG 128
 # define MSG_CMD_NOT_FOUND "command not found\n"
+# define NO_FILE "No such file or directory\n"
 
-# define INVALID_ARGS "INVALID ARGUMENTS.\n \
-Please try one of the following examples:\n\n"
+# define INVALID_ARGS "bash: syntax error near unexpected token `newline'\n"
 
 # define PIPEX_EXAMPLE_1 "1) ./pipex file1 \"ls -l\" \"wc -l\" file2\n"
 # define EXPECTED_EXAMPLE_1 "Should behave like: \

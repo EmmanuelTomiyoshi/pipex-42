@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:58 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 18:49:46 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/07 22:02:17 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,15 @@ typedef struct s_pipex
 	char		*path;
 
 	int			status;
-	int			fd_debug;
 }				t_pipex;
 
 //init data
 void	init_data(t_pipex *pipex, int argc, char *argv[], char *envp[]);
 void	init_static_data(t_pipex *pipex, int argc, char *envp[]);
-void	init_dynamic_data(t_pipex *pipex, char *argv[]);
+void	init_dynamic_data(t_pipex *pipex, char *argv[], char *envp[]);
 void	init_argv_data(t_pipex *pipex, char *argv[]);
 void	get_cmd_list(t_pipex *pipex, char *argv[]);
-void	init_fd_data(t_pipex *p);
+void	init_fd_data(t_pipex *p, char *argv[]);
 void	fd_memory_allocate(t_pipex *pipex);
 void	init_pipe_values(t_pipex *pipex);
 void	split_pathname(t_pipex *pipex, char *envp[]);
@@ -90,8 +89,5 @@ void	free_memory(t_pipex *pipex);
 void	free_int_array_memory(int **my_array, int count);
 void	free_char_array_memory(char **my_array);
 void	wait_status(t_pipex *pipex);
-
-//tests
-void	printftesting(t_pipex *pipex, int i);
 
 #endif

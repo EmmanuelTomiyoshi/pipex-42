@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:17:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/06 18:49:35 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/07 19:37:55 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,11 @@
 
 void	handle_error(t_pipex *pipex)
 {
-	if (error_not_enough_args(pipex) == 1)
-		exit(1);
-	if (error_not_enough_cmds(pipex) == 1)
-		exit(1);
-}
-
-int	error_not_enough_args(t_pipex *pipex)
-{
-	if (pipex->cmd_number < 2)
+	if (pipex->cmd_number < 2 || pipex->pipe_number <= 0)
 	{
-		return (1);
+		ft_printf(INVALID_ARGS);
+		exit(1);
 	}
-	return (0);
-}
-
-int	error_not_enough_cmds(t_pipex *pipex)
-{
-	if (pipex->pipe_number == 0)
-	{
-		return (1);
-	}
-	return (0);
 }
 
 void	error_pipex(int status, char *desc)
