@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:35:29 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/07 21:23:30 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:52:17 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	free_memory(t_pipex *pipex)
 
 	free(pipex->cmd_list);
 	free(pipex->argv);
+	if (pipex->bar != NULL)
+		free(pipex->bar);
 	free_int_array_memory(pipex->array_fd, pipex->pipe_number);
 	i = 0;
 	while (i < pipex->cmd_number)
@@ -36,6 +38,8 @@ void	free_char_array_memory(char **my_array)
 	int	i;
 
 	i = 0;
+	if (my_array == NULL || *my_array == NULL)
+		return ;
 	while (my_array[i] != NULL)
 	{
 		free(my_array[i]);

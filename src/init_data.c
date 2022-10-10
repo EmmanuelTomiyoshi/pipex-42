@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/07 22:01:36 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:59:23 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_static_data(t_pipex *pipex, int argc, char *envp[])
 	pipex->cmd_number = (argc - 3);
 	pipex->pipe_number = pipex->cmd_number - 1;
 	pipex->cmd_start = 2;
+	pipex->bar = NULL;
 	handle_error(pipex);
 }
 

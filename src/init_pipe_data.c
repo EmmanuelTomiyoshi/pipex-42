@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:42:41 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/07 22:01:32 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/10 19:54:57 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	init_fd_data(t_pipex *p, char *argv[])
 			p->infd = open("/dev/null", O_RDONLY);
 			exit(0);
 		}
-		write(2, "bash: ", 6);
-		write(2, argv[1], ft_strlen(argv[1]));
-		write(2, ": ", 2);
-		write(2, NO_FILE, ft_strlen(NO_FILE));
+		write(1, "bash: ", 6);
+		write(1, argv[1], ft_strlen(argv[1]));
+		write(1, ": ", 2);
+		write(1, NO_FILE, ft_strlen(NO_FILE));
 		exit(1);
 	}
 }

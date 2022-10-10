@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 16:10:59 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/07 21:25:17 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:45:09 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	check_path(t_pipex *pipex, int count)
 			return (i);
 		}
 		i++;
+		free(pipex->path);
 	}
 	return (CMD_NOT_FOUND);
 }
