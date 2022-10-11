@@ -42,11 +42,11 @@ $(NAME): $(OBJ) $(INC)
 clean:
 	@echo "$(COLOR_RED)Removing $(COLOR_WHITE)all objects"
 	@$(RM) $(OBJ)
-	@$(RM) $(OBJ_DIR)
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
 	@echo "$(COLOR_RED)Removing $(COLOR_WHITE)$(NAME)"
-	@$(RM) $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
