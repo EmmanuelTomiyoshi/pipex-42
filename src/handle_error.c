@@ -6,22 +6,22 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:17:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/07 19:37:55 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 13:57:58 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	handle_error(t_pipex *pipex)
+void	handle_error(t_pipex *p)
 {
-	if (pipex->cmd_number < 2 || pipex->pipe_number <= 0)
+	if (p->cmd_number < 2 || p->pipe_number <= 0)
 	{
 		ft_printf(INVALID_ARGS);
 		exit(1);
 	}
 }
 
-void	error_pipex(int status, char *desc)
+void	handle_error_status(int status, char *desc)
 {
 	if (status == 127)
 	{

@@ -6,40 +6,42 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 12:07:48 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 13:45:57 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	init_data(t_pipex *pipex, int argc, char *argv[], char *envp[])
+void	init_data(t_pipex *p, int argc, char *argv[], char *envp[])
 {
-	init_static_data(pipex, argc);
-	init_fd_data(pipex, argv);
-	if (pipex->infd != -1)
+	init_static_data(p, argc);
+	init_fd_data(p, argv);
+	if (p->infd != -1)
 	{
-		init_dynamic_data(pipex, argv, envp);
-		fd_memory_allocate(pipex);
-		init_pipe_values(pipex);
+		init_dynamic_data(p, argv, envp);
+		fd_memory_allocate(p);
+		init_pipe_values(p);
 	}
 }
 
-void	init_static_data(t_pipex *pipex, int argc)
+void	init_static_data(t_pipex *p, int argc)
 {
-	pipex->argc = argc;
-	pipex->cmd_number = (argc - 3);
-	pipex->pipe_number = pipex->cmd_number - 1;
-	pipex->cmd_start = 2;
-	pipex->bar = NULL;
-	handle_error(pipex);
+	p->argc = argc;
+	p->cmd_number = (argc - 3);
+	p->pipe_number = p->cmd_number - 1;
+	p->cmd_start = 2;
+	p->bar = NULL;
+	p->status = 0;
+	p->path_index = 0;
+	handle_error(p);
 }
 
-void	init_dynamic_data(t_pipex *pipex, char *argv[], char *envp[])
+void	init_dynamic_data(t_pipex *p, char *argv[], char *envp[])
 {
-	pipex->array_fd = ft_calloc(sizeof(int *), pipex->pipe_number);
-	pipex->splitted_cmd = ft_calloc(sizeof(char **), pipex->cmd_number + 1);
-	pipex->pid_fd = ft_calloc(sizeof(int), pipex->cmd_number);
-	init_argv_data(pipex, argv);
-	get_cmd_list(pipex, argv);
-	split_pathname(pipex, envp);
+	p->array_fd = ft_calloc(sizeof(int *), p->pipe_number);
+	p->splitted_cmd = ft_calloc(sizeof(char **), p->cmd_number + 1);
+	p->pid_fd = ft_calloc(sizeof(int), p->cmd_number);
+	init_argv_data(p, argv);
+	get_cmd_list(p, argv);
+	split_pathname(p, envp);
 }

@@ -6,31 +6,31 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:35:29 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 10:52:57 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 13:22:28 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	free_memory(t_pipex *pipex)
+void	free_memory(t_pipex *p)
 {
 	int	i;
 
-	free(pipex->cmd_list);
-	free(pipex->argv);
-	if (pipex->bar != NULL)
-		free(pipex->bar);
-	free_int_array_memory(pipex->array_fd, pipex->pipe_number);
+	free(p->cmd_list);
+	free(p->argv);
+	if (p->bar != NULL)
+		free(p->bar);
+	free_int_array_memory(p->array_fd, p->pipe_number);
 	i = 0;
-	while (i < pipex->cmd_number)
+	while (i < p->cmd_number)
 	{
-		free_char_array_memory(pipex->splitted_cmd[i]);
+		free_char_array_memory(p->splitted_cmd[i]);
 		i++;
 	}
-	free(pipex->splitted_cmd);
-	free(pipex->pid_fd);
-	free(pipex->array_fd);
-	free_char_array_memory(pipex->envp_path_list);
+	free(p->splitted_cmd);
+	free(p->pid_fd);
+	free(p->array_fd);
+	free_char_array_memory(p->envp_path_list);
 }
 
 void	free_char_array_memory(char **my_array)

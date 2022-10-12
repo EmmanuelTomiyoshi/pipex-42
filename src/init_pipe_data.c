@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:42:41 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/10 19:54:57 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 13:26:00 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,19 @@
 
 void	init_fd_data(t_pipex *p, char *argv[])
 {
+	outfile_fd(p, argv);
+	infile_fd(p, argv);
+}
+
+void	outfile_fd(t_pipex *p, char *argv[])
+{
 	p->outfd = open(argv[p->argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (p->outfd < 0)
 		exit(1);
+}
+
+void	infile_fd(t_pipex *p, char *argv[])
+{
 	p->infd = open(argv[1], O_RDONLY);
 	if (p->infd < 0)
 	{
@@ -33,37 +43,30 @@ void	init_fd_data(t_pipex *p, char *argv[])
 	}
 }
 
-void	fd_memory_allocate(t_pipex *pipex)
+void	fd_memory_allocate(t_pipex *p)
 {
 	int	i;
 
 	i = 0;
-	while (i < pipex->pipe_number)
+	while (i < p->pipe_number)
 	{
-		pipex->array_fd[i] = ft_calloc(sizeof(int), 2);
+		p->array_fd[i] = ft_calloc(sizeof(int), 2);
 		i++;
 	}
 }
 
-void	init_pipe_values(t_pipex *pipex)
+void	init_pipe_values(t_pipex *p)
 {
 	int	i;
-	int	k;
 	int	value;
 
 	i = 0;
-	k = 1;
 	value = -5;
-	while (i < pipex->pipe_number)
+	while (i < p->pipe_number)
 	{
-		value = pipe(pipex->array_fd[i]);
+		value = pipe(p->array_fd[i]);
 		if (value == -1)
 			perror("pipe:");
-		k = 0;
-		while (k <= 1)
-		{
-			k++;
-		}
 		i++;
 	}
 }
