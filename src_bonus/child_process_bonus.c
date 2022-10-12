@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
+/*   child_process_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 10:33:40 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 17:29:23 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 17:19:08 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void	child_dup_redirection(t_pipex *p, int i)
 	if (i == 0)
 	{
 		dup2(p->infd, STDIN_FILENO);
+		dup2(p->array_fd[i][1], STDOUT_FILENO);
+	}
+	else if (i != (p->cmd_number - 1))
+	{
+		dup2(p->array_fd[i - 1][0], STDIN_FILENO);
 		dup2(p->array_fd[i][1], STDOUT_FILENO);
 	}
 	else

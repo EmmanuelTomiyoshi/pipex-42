@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_error.c                                     :+:      :+:    :+:   */
+/*   init_cmd_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/30 14:17:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 17:27:38 by etomiyos         ###   ########.fr       */
+/*   Created: 2022/10/06 10:20:38 by etomiyos          #+#    #+#             */
+/*   Updated: 2022/10/12 14:02:13 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	handle_error(t_pipex *p)
+void	init_argv_data(t_pipex *p, char *argv[])
 {
-	if (p->argc != 5)
+	int	i;
+
+	i = 0;
+	p->argv = ft_calloc(sizeof(char *), p->argc + 1);
+	while (i < p->argc)
 	{
-		ft_printf(INVALID_ARGS);
-		exit(1);
+		p->argv[i] = argv[i];
+		i++;
 	}
 }
 
-void	handle_error_status(int status, char *desc)
+void	get_cmd_list(t_pipex *p, char *argv[])
 {
-	if (status == 127)
+	int	i;
+	int	j;
+
+	i = 2;
+	j = 0;
+	p->cmd_list = ft_calloc(sizeof(char *), p->cmd_number);
+	while (i <= p->cmd_number + 1)
 	{
-		write(2, desc, ft_strlen(desc));
-		write(2, ": ", 2);
-		write(2, MSG_CMD_NOT_FOUND, ft_strlen(MSG_CMD_NOT_FOUND));
+		p->cmd_list[j] = argv[i];
+		i++;
+		j++;
 	}
-	else
-		strerror(status);
 }

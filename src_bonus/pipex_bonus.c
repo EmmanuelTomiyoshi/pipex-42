@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_error.c                                     :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/30 14:17:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 17:27:38 by etomiyos         ###   ########.fr       */
+/*   Created: 2022/09/18 12:24:30 by etomiyos          #+#    #+#             */
+/*   Updated: 2022/10/12 12:31:51 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	handle_error(t_pipex *p)
+int	main(int argc, char *argv[], char *envp[])
 {
-	if (p->argc != 5)
-	{
-		ft_printf(INVALID_ARGS);
-		exit(1);
-	}
-}
+	t_pipex	pipex;
 
-void	handle_error_status(int status, char *desc)
-{
-	if (status == 127)
-	{
-		write(2, desc, ft_strlen(desc));
-		write(2, ": ", 2);
-		write(2, MSG_CMD_NOT_FOUND, ft_strlen(MSG_CMD_NOT_FOUND));
-	}
-	else
-		strerror(status);
+	init_data(&pipex, argc, argv, envp);
+	forking(&pipex, envp);
+	close_pipes(&pipex);
+	wait_status(&pipex);
+	free_memory(&pipex);
+	return (pipex.status);
 }
