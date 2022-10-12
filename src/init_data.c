@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 10:53:04 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 12:07:48 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_data(t_pipex *pipex, int argc, char *argv[], char *envp[])
 {
-	init_static_data(pipex, argc, envp);
+	init_static_data(pipex, argc);
 	init_fd_data(pipex, argv);
 	if (pipex->infd != -1)
 	{
@@ -24,7 +24,7 @@ void	init_data(t_pipex *pipex, int argc, char *argv[], char *envp[])
 	}
 }
 
-void	init_static_data(t_pipex *pipex, int argc, char *envp[])
+void	init_static_data(t_pipex *pipex, int argc)
 {
 	pipex->argc = argc;
 	pipex->cmd_number = (argc - 3);

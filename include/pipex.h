@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:58 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 11:49:10 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 12:06:12 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_pipex
 
 //init data
 void	init_data(t_pipex *pipex, int argc, char *argv[], char *envp[]);
-void	init_static_data(t_pipex *pipex, int argc, char *envp[]);
+void	init_static_data(t_pipex *pipex, int argc);
 void	init_dynamic_data(t_pipex *pipex, char *argv[], char *envp[]);
 void	init_argv_data(t_pipex *pipex, char *argv[]);
 void	get_cmd_list(t_pipex *pipex, char *argv[]);

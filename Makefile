@@ -1,24 +1,25 @@
 NAME = pipex
 
-LIBFT = libft/libft.a
-LIBFTDIR = libft/
+LIBFT        = libft/libft.a
+LIBFTDIR     = libft/
 LIBPRINTFDIR = ft_printf/
-FT_PRINTF = ft_printf/libftprintf.a
+FT_PRINTF    = ft_printf/libftprintf.a
 FT_PRINTFDIR = ft_printf/include
 
-SRCDIR = src/
-OBJDIR = obj/
-INCDIR = include/
+SRCDIR  = src/
+OBJDIR  = obj/
+INCDIR  = include/
 
 LIBFLAGS = -lft
-#CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 CFLAGS += -g -I ${FT_PRINTFDIR} -I ${LIBFTDIR} -I ${INCDIR}
 LIBFLAGS = -lft -lftprintf
 CC = cc
 
-FILES = pipex.c pathname.c init_data.c handle_error.c child_process.c \
-		close_pipes.c init_cmd_data.c init_pipe_data.c \
-		free_memory.c forking.c wait_status.c
+FILES   =	pipex.c pathname.c init_data.c handle_error.c child_process.c \
+			close_pipes.c init_cmd_data.c init_pipe_data.c \
+			free_memory.c forking.c wait_status.c
+
 SRC = ${addprefix ${SRCDIR}, ${FILES}}
 OBJ = ${addprefix ${OBJDIR}, ${FILES:.c=.o}}
 
@@ -64,9 +65,6 @@ re: fclean all
 norm:
 	@clear
 	@norminette ${SRC} ${INCDIR}* | grep Error || true
-
-# test: ${NAME}
-# 	./pipex file1 "ls -la" "wc -l" file2
 
 leaks: ${NAME}
 	@clear
