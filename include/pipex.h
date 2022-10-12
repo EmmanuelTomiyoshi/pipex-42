@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:58 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/07 22:02:17 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 11:49:10 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	init_fd_data(t_pipex *p, char *argv[]);
 void	fd_memory_allocate(t_pipex *pipex);
 void	init_pipe_values(t_pipex *pipex);
 void	split_pathname(t_pipex *pipex, char *envp[]);
+void	splitted_cmd(t_pipex *pipex, int ind);
+void	handle_quoting(char **str, int original_value, int replaced_value);
 
 //handle_error
 void	error_pipex(int status, char *desc);

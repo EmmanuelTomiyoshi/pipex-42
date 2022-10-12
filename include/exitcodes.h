@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 08:54:29 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/07 12:32:03 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/12 11:12:16 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # define EX_INVALID_ARG 128
 # define MSG_CMD_NOT_FOUND "command not found\n"
 # define NO_FILE "No such file or directory\n"
+# define SINGLE_QUOTE 39
+# define TEMP_VALUE -1
+# define SPACE 32
 
 # define INVALID_ARGS "bash: syntax error near unexpected token `newline'\n"
 
