@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 10:33:40 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 17:29:23 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/13 20:00:20 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	child_process_check(t_pipex *p, char *envp[], int i)
 	child_dup_redirection(p, i);
 	close_pipes(p);
 	if (j < 0)
-		p->path_element = '\0';
+		p->path_element = NULL;
 	else
 		p->path_element = ft_strjoin(p->envp_path_list[j], p->bar);
 	child_process_execution(p, envp, i);
