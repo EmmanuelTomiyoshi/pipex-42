@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:15:03 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/14 16:56:46 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/14 18:32:05 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	close_pipes(t_pipex *p)
 		close(p->array_fd[i][1]);
 		i++;
 	}
-	close(p->infd);
+	if (p->infd != -1)
+		close(p->infd);
 	close(p->outfd);
 }

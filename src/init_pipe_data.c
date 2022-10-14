@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:42:41 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/14 17:01:33 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/14 18:25:02 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,8 @@ void	infile_fd(t_pipex *p, char *argv[])
 	p->infd = open(argv[1], O_RDONLY);
 	if (p->infd < 0)
 	{
-		if (!access(argv[1], F_OK))
-		{
-			p->infd = open("/dev/null", O_RDONLY);
-			free_memory(p);
-			exit(0);
-		}
 		write(2, "bash: ", 6);
 		perror(p->argv[1]);
-		free_memory(p);
-		exit(1);
 	}
 }
 
