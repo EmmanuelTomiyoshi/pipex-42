@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 09:12:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 13:45:57 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:18:56 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,7 @@
 void	init_data(t_pipex *p, int argc, char *argv[], char *envp[])
 {
 	init_static_data(p, argc);
-	init_fd_data(p, argv);
-	if (p->infd != -1)
-	{
-		init_dynamic_data(p, argv, envp);
-		fd_memory_allocate(p);
-		init_pipe_values(p);
-	}
+	init_dynamic_data(p, argv, envp);
 }
 
 void	init_static_data(t_pipex *p, int argc)

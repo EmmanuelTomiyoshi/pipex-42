@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 11:35:38 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/12 14:00:38 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:56:54 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	forking(t_pipex *p, char *envp[])
 	int	i;
 
 	i = 0;
+	init_fd_data(p, p->argv);
+	if (p->infd != -1)
+	{
+		fd_memory_allocate(p);
+		init_pipe_values(p);
+	}
 	while (i < p->cmd_number)
 	{
 		split_cmd(p, i);
