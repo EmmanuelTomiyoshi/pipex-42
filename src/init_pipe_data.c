@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:42:41 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/15 14:00:31 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/15 22:17:20 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	init_fd_data(t_pipex *p, char *argv[])
 {
-	infile_fd(p, argv);
 	outfile_fd(p, argv);
+	infile_fd(p, argv);
 }
 
 void	outfile_fd(t_pipex *p, char *argv[])
@@ -33,7 +33,7 @@ void	outfile_fd(t_pipex *p, char *argv[])
 void	infile_fd(t_pipex *p, char *argv[])
 {
 	p->infd = open(argv[1], O_RDONLY);
-	if (p->infd < 0 || access(argv[1], R_OK))
+	if (p->infd < 0)
 	{
 		write(2, "bash: ", 6);
 		perror(p->argv[1]);

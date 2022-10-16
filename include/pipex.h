@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 12:24:58 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/15 13:31:33 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/15 22:23:40 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	child_dup_redirection(t_pipex *p, int i);
 void	child_process_check(t_pipex *p, char *envp[], int i);
 int		check_path(t_pipex *p, int count);
 
-//close / free / wait
+//close | free | wait
 void	close_pipes(t_pipex *p);
 void	free_memory(t_pipex *p);
 void	free_int_array_memory(int **my_array, int count);

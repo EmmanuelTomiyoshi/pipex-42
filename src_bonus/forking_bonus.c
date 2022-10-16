@@ -6,9 +6,11 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 11:35:38 by etomiyos          #+#    #+#             */
-/*   Updated: 2022/10/14 18:51:12 by etomiyos         ###   ########.fr       */
+/*   Updated: 2022/10/15 22:18:43 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "pipex.h"
 
 #include "pipex.h"
 
